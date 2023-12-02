@@ -5,6 +5,7 @@
 # 2 -> project id
 # 3 -> (optional) team id
 # 4 -> cypress options
+# 5 -> path to test results
 
 QUERY="projectId=$2"
 
@@ -18,3 +19,11 @@ echo "=> found deployment url: ${DEPLOYMENT_URL}"
 yarn install
 export CYPRESS_BASE_URL="https://${DEPLOYMENT_URL}"
 npx cypress run $4
+
+# if configured, move test reports to the workspace folder. This way, they will
+# be available for subsequent actions or jobs in the workflow.
+# https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action#accessing-files-created-by-a-container-action
+if [ -n "$5" ]; then
+    echo "=> moving ${5} to /github/workspace"
+    mv $5 /github/workspace
+fi

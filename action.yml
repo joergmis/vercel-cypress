@@ -20,6 +20,10 @@ inputs:
     description: "Cypress options"
     required: false
     default: ""
+  test-report-dir:
+    description: "Directory to the test report"
+    required: false
+    default: ""
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -28,3 +32,4 @@ runs:
     - ${{ inputs.project-id }}
     - ${{ inputs.team-id }}
     - ${{ inputs.options }}
+    - ${{ inputs.test-report-dir }}

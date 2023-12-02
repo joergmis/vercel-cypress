@@ -57,4 +57,13 @@ jobs:
           team-id: your-team-id
           # optional: parameters that are passed to 'npx cypress run <options>'
           options: "--browser chrome --spec cypress/e2e/base/*"
+          # optional: path to the test results to make them available for 
+          # subsequent actions in the workflow
+          test-report-dir: "cypress/results"
+
+      - name: upload the test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-results
+          path: cypress/results
 ```
