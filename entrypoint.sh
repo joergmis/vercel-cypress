@@ -28,6 +28,8 @@ if [ -n "$5" ]; then
     echo "=> contents of ${5}:"
     ls -la ${5}
     mv ${5} /github/workspace
+    echo "=> contents of /github/workspace:"
+    ls -la /github/workspace
     echo "=> contents of /github/workspace/${5}:"
     ls -la /github/workspace/${5}
 fi
