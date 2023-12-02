@@ -27,7 +27,7 @@ if [ -n "$5" ]; then
     echo "=> moving ${5} to /github/workspace"
     echo "=> contents of ${5}:"
     ls -la ${5}
-    mv ${5} /github/workspace
+    # mv ${5} /github/workspace
     echo "=> contents of /github/workspace:"
     ls -la /github/workspace
     echo "=> contents of /github/workspace/${5}:"
