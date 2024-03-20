@@ -23,7 +23,7 @@ fetch_deployment() {
     DEPLOYMENT_STATE=$(curl -X GET "https://api.vercel.com/v6/deployments?${QUERY}" -H "Authorization: Bearer ${API_TOKEN}" | jq -r '.deployments[0].state')
     DEPLOYMENT_READYSTATE=$(curl -X GET "https://api.vercel.com/v6/deployments?${QUERY}" -H "Authorization: Bearer ${API_TOKEN}" | jq -r '.deployments[0].readyState')
     
-    echo "Current Deployment State: $DEPLOYMENT_STATE, Ready State: $DEPLOYMENT_READYSTATE, Ready Substate: $DEPLOYMENT_READYSUBSTATE"
+    echo "Current Deployment State: $DEPLOYMENT_STATE, Ready State: $DEPLOYMENT_READYSTATE"
 }
 
 # Initial fetch to get the state of the most recent or a specific deployment
