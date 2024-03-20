@@ -5,7 +5,6 @@ API_TOKEN=$1
 PROJECT_ID=$2
 TEAM_ID=$3
 CYPRESS_OPTIONS=$4
-GITHUB_SHA=$5
 
 QUERY="projectId=$PROJECT_ID"
 TIMEOUT=10
@@ -33,7 +32,7 @@ fetch_deployment() {
         rm "$TEMP_RESPONSE_FILE" "$ERROR_FILE"
         exit 1
     fi
-    
+
     # Find the index of the deployment that matches the given GITHUB_SHA or default to 0
     if [ -z "$GITHUB_SHA" ]; then
         INDEX=0
