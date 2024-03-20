@@ -29,7 +29,8 @@ fetch_deployment() {
     # Cleanup: Remove the temporary file
     rm "$TEMP_RESPONSE_FILE"
     
-    echo "Current Deployment State: $DEPLOYMENT_STATE, Ready State: $DEPLOYMENT_READYSTATE"
+    echo "=> Current Deployment State: $DEPLOYMENT_STATE"
+    echo "=> Ready State: $DEPLOYMENT_READYSTATE"
 }
 
 
