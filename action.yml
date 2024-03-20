@@ -28,3 +28,4 @@ runs:
     - ${{ inputs.project-id }}
     - ${{ inputs.team-id }}
     - ${{ inputs.options }}
+    - ${{ github.sha }}
