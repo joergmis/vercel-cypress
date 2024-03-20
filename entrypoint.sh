@@ -75,5 +75,6 @@ echo "=> Deployment is ready!"
 echo "=> Found deployment URL: https://${DEPLOYMENT_URL}"
 
 # Proceed with the Cypress tests
+yarn install
 export CYPRESS_BASE_URL="https://${DEPLOYMENT_URL}"
 npx cypress run ${CYPRESS_OPTIONS}
