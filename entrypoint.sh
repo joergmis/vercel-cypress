@@ -13,16 +13,21 @@ if [ -n "$TEAM_ID" ]; then
     QUERY="${QUERY}&teamId=${TEAM_ID}"
 fi
 
-echo "Query: $QUERY"
-
 echo "=> Fetching deployments..."
 
 # Function to fetch and parse the most recent or specific deployment state
 fetch_deployment() {
-    RESPONSE=$(curl -X GET "https://api.vercel.com/v6/deployments?${QUERY}" -H "Authorization: Bearer ${API_TOKEN}" | jq -r '"\(.deployments[0].url) \(.deployments[0].state) \(.deployments[0].readyState)"')
-    DEPLOYMENT_URL=$(echo $RESPONSE | cut -d ' ' -f 1)
-    DEPLOYMENT_STATE=$(echo $RESPONSE | cut -d ' ' -f 2)
-    DEPLOYMENT_READYSTATE=$(echo $RESPONSE | cut -d ' ' -f 3)
+    # Fetch the response and save it to a temporary file
+    TEMP_RESPONSE_FILE=$(mktemp)
+    curl -s -X GET "https://api.vercel.com/v6/deployments?${QUERY}" -H "Authorization: Bearer ${API_TOKEN}" > "$TEMP_RESPONSE_FILE"
+    
+    # Extract each field using jq and store in variables
+    DEPLOYMENT_URL=$(jq -r '.deployments[0].url' < "$TEMP_RESPONSE_FILE")
+    DEPLOYMENT_STATE=$(jq -r '.deployments[0].state' < "$TEMP_RESPONSE_FILE")
+    DEPLOYMENT_READYSTATE=$(jq -r '.deployments[0].readyState' < "$TEMP_RESPONSE_FILE")
+    
+    # Cleanup: Remove the temporary file
+    rm "$TEMP_RESPONSE_FILE"
     
     echo "Current Deployment State: $DEPLOYMENT_STATE, Ready State: $DEPLOYMENT_READYSTATE"
 }
