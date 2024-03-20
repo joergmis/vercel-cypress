@@ -28,4 +28,4 @@ runs:
     - ${{ inputs.project-id }}
     - ${{ inputs.team-id }}
     - ${{ inputs.options }}
-    - ${{ github.sha }}
+    - $(git rev-parse --short "$GITHUB_SHA")
