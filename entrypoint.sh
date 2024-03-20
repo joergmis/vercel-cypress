@@ -20,7 +20,19 @@ echo "=> Fetching deployments..."
 fetch_deployment() {
     # Fetch the response and save it to a temporary file
     TEMP_RESPONSE_FILE=$(mktemp)
-    curl -s -X GET "https://api.vercel.com/v6/deployments?${QUERY}" -H "Authorization: Bearer ${API_TOKEN}" > "$TEMP_RESPONSE_FILE"
+    ERROR_FILE=$(mktemp)
+    
+    # Use curl with -f to fail on HTTP errors
+    HTTP_STATUS=$(curl -s -o "$TEMP_RESPONSE_FILE" -w "%{http_code}" -X GET "https://api.vercel.com/v6/deployments?${QUERY}" -H "Authorization: Bearer ${API_TOKEN}" -f -S 2>"$ERROR_FILE")
+    
+    # Check if curl command succeeded
+    if [ "$HTTP_STATUS" -ne 200 ]; then
+        echo "Failed to fetch deployments. HTTP Status: $HTTP_STATUS"
+        cat "$ERROR_FILE"
+        cat "$TEMP_RESPONSE_FILE" # Print response body if available
+        rm "$TEMP_RESPONSE_FILE" "$ERROR_FILE"
+        exit 1
+    fi
     
     # Find the index of the deployment that matches the given GITHUB_SHA or default to 0
     if [ -z "$GITHUB_SHA" ]; then
