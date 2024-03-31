@@ -65,6 +65,12 @@ fetch_deployment
 
 # Loop until the deployment state is READY, readyState is READY
 while [ "$DEPLOYMENT_STATE" != "READY" ] || [ "$DEPLOYMENT_READYSTATE" != "READY" ]; do
+    # If the deployment state or ready state is CANCELED, exit the script with a non-zero status code
+    if [ "$DEPLOYMENT_STATE" = "CANCELED" ] || [ "$DEPLOYMENT_READYSTATE" = "CANCELED" ]; then
+        echo "=> Deployment or ready state is canceled. Exiting..."
+        exit 1
+    fi
+
     echo "=> Deployment not ready yet. Retrying in $TIMEOUT seconds..."
     sleep $TIMEOUT
     
