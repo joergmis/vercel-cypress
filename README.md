@@ -45,9 +45,9 @@ jobs:
   regression:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: cachho/vercel-cypress@v1.0.1
+      - uses: cachho/vercel-cypress@v2.2
         with:
           # required: vercel API token
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
