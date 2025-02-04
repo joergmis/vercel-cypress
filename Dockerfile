@@ -1,13 +1,10 @@
 # https://hub.docker.com/r/cypress/included/tags
 FROM cypress/included:13.6.0
 
-# Install curl and gnupg
-RUN apt-get update && apt-get install -y curl gnupg
-
 # Add the Google Chrome public key
-RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc >/dev/null
 
-# https://docs.cypress.io/guides/continuous-integration/introduction#Machine-requirements
+# Install jq
 RUN apt-get update && apt-get install -y jq
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
