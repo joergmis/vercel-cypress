@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cachho/vercel-cypress@v1
+      - uses: cachho/vercel-cypress@v1.0.1
         with:
           # required: vercel API token
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
