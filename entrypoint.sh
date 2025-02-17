@@ -33,6 +33,14 @@ fetch_deployment() {
         exit 1
     fi
 
+    # Check if the response is valid JSON
+    if ! jq empty "$TEMP_RESPONSE_FILE" 2>/dev/null; then
+        echo "Invalid JSON response"
+        cat "$TEMP_RESPONSE_FILE"
+        rm "$TEMP_RESPONSE_FILE" "$ERROR_FILE"
+        exit 1
+    fi
+
     # Find the index of the deployment that matches the given GITHUB_SHA or default to 0
     if [ -z "$GITHUB_SHA" ]; then
         INDEX=0
@@ -53,12 +61,11 @@ fetch_deployment() {
     DEPLOYMENT_READYSTATE=$(jq -r --argjson INDEX "$INDEX" '.deployments[$INDEX].readyState' < "$TEMP_RESPONSE_FILE")
     
     # Cleanup: Remove the temporary file
-    rm "$TEMP_RESPONSE_FILE"
+    rm "$TEMP_RESPONSE_FILE" "$ERROR_FILE"
     
-        echo "=> Current Deployment State: $DEPLOYMENT_STATE"
+    echo "=> Current Deployment State: $DEPLOYMENT_STATE"
     echo "=> Ready State: $DEPLOYMENT_READYSTATE"
 }
-
 
 # Initial fetch to get the state of the most recent or a specific deployment
 fetch_deployment
